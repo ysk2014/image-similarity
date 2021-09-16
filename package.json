@@ -1,12 +1,11 @@
 {
     "name": "image-similarity",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "计算两个图片相似度",
     "main": "index.js",
     "dependencies": {
-        "canvas": "^2.2.0"
+        "canvas": "^2.8.0"
     },
-    "devDependencies": {},
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
