@@ -62,15 +62,17 @@ function vectorCosine(p1, p2) {
 }
 
 module.exports = function(image1, image2) {
-    let img1Path = path.isAbsolute(image1) ? image1 : path.resolve(process.cwd(), image1);
-    let img2Path = path.isAbsolute(image2) ? image2 : path.resolve(process.cwd(), image2);
+    let images = [image1, image2]
 
-    if (!fs.existsSync(img1Path) || !fs.existsSync(img2Path)) {
-        return Promise.reject('输入的图片不存在');
+    for (let i = 0; i < 2; i++) {
+        if (typeof images[i] === 'string') {
+            images[i] = path.isAbsolute(images[i]) ? images[i] : path.resolve(process.cwd(), images[i])
+            if (!fs.existsSync(images[i])) return Promise.reject(`输入的图片不存在 (File ${images[i]} not found)`);
+        } else if (!Buffer.isBuffer(images[i])) return Promise.reject("参数必须是字符串或缓冲区 (Arguments must be strings or buffers)")
     }
 
     return Promise.all(
-        [img1Path, img2Path].map(src => {
+        images.map(src => {
             return loadImage(src).then(image => {
                 const canvas = createCanvas(image.width, image.height);
                 const ctx = canvas.getContext('2d');
